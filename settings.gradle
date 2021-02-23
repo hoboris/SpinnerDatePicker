@@ -1,2 +1,0 @@
-include ':SpinnerDatePickerLib', ':SpinnerDatePickerExample'
-rootProject.name = 'SpinnerDatePicker'

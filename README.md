@@ -1,13 +1,11 @@
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=18) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-SpinnerDatePicker-red.svg?style=plastic)](https://android-arsenal.com/details/1/6319) [![Release](https://jitpack.io/v/drawers/SpinnerDatePicker.svg)](https://jitpack.io/#drawers/SpinnerDatePicker)
 
-~~Spinner DatePicker~~
+Spinner DatePicker
 -----
 
-# Deprecation
+## Update
  
-This repo is no longer being maintained due to time constraints. #sorrynotsorry
-
-If you wish to transfer ownership then please contact the author via issues.
+Fork from [David Rawson](https://github.com/drawers)'s [SpinnerDatePicker](https://github.com/drawers/SpinnerDatePicker), with the additional feature of having the year as being optional (See [Usage update](#usage-update))
 
 ## Summary
 
@@ -56,6 +54,22 @@ The example project should make it clear - get it by cloning the repo.
 
 Note that full support is only for API >= 18. API < 18 you'll get the DatePicker but there is no easy way to style it correctly.                     
                     
+### Usage update
+
+To hide the year `NumberPicker`, create the `SpinnerDatePickerDialog` as follows:
+
+        new SpinnerDatePickerDialogBuilder()
+                .context(context)
+                .onCancel(cancelListener)
+                .callback(dateSetListener)
+                .spinnerTheme(R.style.NumberPickerStyle)
+                .showTitle(true)
+                .customTitle("My custom title")
+                .showYearSpinner(false)
+                .defaultDate(calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+                .build()
+                .show();
+
 ## Usage in a project
 
 Add the following to your **project** level `build.gradle`:
