@@ -16,6 +16,7 @@ package com.tsongkha.spinnerdatepicker;
  * limitations under the License.
  */
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Parcel;
@@ -37,7 +38,6 @@ import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
 
 import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
@@ -45,6 +45,8 @@ import java.util.Locale;
 /**
  * A delegate implementing the basic DatePicker
  */
+@SuppressLint("ViewConstructor")
+@SuppressWarnings("deprecation")
 public class SpinnerDatePicker extends FrameLayout {
 
     private static final boolean DEFAULT_ENABLED_STATE = true;
@@ -345,7 +347,7 @@ public class SpinnerDatePicker extends FrameLayout {
      * Gets a calendar for locale bootstrapped with the value of a given calendar.
      *  @param oldCalendar The old calendar.
      * @param locale      The locale.
-     * @param isYearShown
+     * @param isYearShown Is the year spinner shown
      */
     private Calendar getCalendarForLocale(Calendar oldCalendar, Locale locale, boolean isYearShown) {
         if (oldCalendar == null) {
@@ -372,12 +374,8 @@ public class SpinnerDatePicker extends FrameLayout {
         mPickerContainer.removeAllViews();
         // We use numeric spinners for year and day, but textual months. Ask icu4c what
         // order the user's locale uses for that combination. http://b/7207103.
-        String pattern = null;
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            pattern = getOrderJellyBeanMr2();
-        } else {
-            pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "yyyyMMMdd");
-        }
+        String pattern;
+        pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "yyyyMMMdd");
         char[] order = ICU.getDateFormatOrder(pattern);
         final int spinnerCount = order.length;
         for (int i = 0; i < spinnerCount; i++) {
@@ -398,26 +396,6 @@ public class SpinnerDatePicker extends FrameLayout {
                     throw new IllegalArgumentException(Arrays.toString(order));
             }
         }
-    }
-
-
-    //see http://androidxref.com/4.1.1/xref/packages/apps/Contacts/src/com/android/contacts/datepicker/DatePicker.java
-    private String getOrderJellyBeanMr2() {
-        java.text.DateFormat format;
-        String order;
-        if (mShortMonths[0].startsWith("1")) {
-            format = DateFormat.getDateFormat(getContext());
-        } else {
-            format = DateFormat.getMediumDateFormat(getContext());
-        }
-
-        if (format instanceof SimpleDateFormat) {
-            order = ((SimpleDateFormat) format).toPattern();
-        } else {
-            // Shouldn't happen, but just in case.
-            order = new String(DateFormat.getDateFormatOrder(getContext()));
-        }
-        return order;
     }
 
     private boolean isNewDate(int year, int month, int dayOfMonth) {
@@ -590,7 +568,7 @@ public class SpinnerDatePicker extends FrameLayout {
 
     private static class SavedState extends BaseSavedState {
 
-        @SuppressWarnings("unused") public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
+        public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
 
             @Override
             public SavedState createFromParcel(Parcel in) {

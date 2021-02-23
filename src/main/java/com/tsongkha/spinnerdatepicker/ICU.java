@@ -6,6 +6,7 @@ public class ICU {
      * This method is directly copied from {libcore.icu.ICU}. The method is simple enough
      * that it probably won't change.
      */
+    @SuppressWarnings("StatementWithEmptyBody")
     public static char[] getDateFormatOrder(String pattern) {
         char[] result = new char[3];
         int resultIndex = 0;
@@ -32,15 +33,13 @@ public class ICU {
                 throw new IllegalArgumentException("Bad pattern character '"
                         + ch + "' in " + pattern);
             } else if (ch == '\'') {
-                if (i < pattern.length() - 1 && pattern.charAt(i + 1) == '\'') {
-                    ++i;
-                } else {
+                if (i >= pattern.length() - 1 || pattern.charAt(i + 1) != '\'') {
                     i = pattern.indexOf('\'', i + 1);
                     if (i == -1) {
                         throw new IllegalArgumentException("Bad quoting in " + pattern);
                     }
-                    ++i;
                 }
+                ++i;
             } else {
                 // Ignore spaces and punctuation.
             }
