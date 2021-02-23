@@ -52,7 +52,7 @@ And then:
 
 The example project should make it clear - get it by cloning the repo.                    
 
-Note that full support is only for API >= 18. API < 18 you'll get the DatePicker but there is no easy way to style it correctly.                     
+~~Note that full support is only for API >= 18. API < 18 you'll get the DatePicker but there is no easy way to style it correctly.~~                     
                     
 ### Usage update
 
@@ -70,7 +70,7 @@ To hide the year `NumberPicker`, create the `SpinnerDatePickerDialog` as follows
                 .build()
                 .show();
 
-## Usage in a project
+## ~~Usage in a project~~
 
 Add the following to your **project** level `build.gradle`:
     
